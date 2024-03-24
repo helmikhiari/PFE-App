@@ -4,15 +4,12 @@ import{View,Text,StyleSheet} from 'react-native'
 
 const Line=()=>
 {
-    return(<View style={{flexDirection:"row",justifyContent:"space-between",marginHorizontal:15,marginTop:"3%"}}>
-            <View style={[styles.line,{width:"40%"}]}>
+    return(
+            <View style={[styles.line,{width:"100%"}]}>
                 
             </View>
-            <Text style={styles.or}>or</Text>
-            <View style={[styles.line,{width:"40%"}]}>
-                
-            </View>
-            </View>
+            
+            
 )}
 
 const styles=StyleSheet.create({

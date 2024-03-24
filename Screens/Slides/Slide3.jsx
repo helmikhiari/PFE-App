@@ -1,5 +1,5 @@
 import React from "react";
-import CostumB from "../../Components/CostumB.js"
+import CostumB from "../../Components/CostumB"
 import{View,Text,StyleSheet, Image,StatusBar, useWindowDimensions} from "react-native"
 import tistyles from "./styles.js"
 import { useNavigation } from '@react-navigation/native';
@@ -46,7 +46,7 @@ const styles=StyleSheet.create({
     {
         flex:0.7,
         justifyContent:"space-around",
-        paddingHorizontal:'10%'
+        paddingHorizontal:20
     },
    
 
