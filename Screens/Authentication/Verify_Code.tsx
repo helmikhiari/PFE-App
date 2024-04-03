@@ -1,35 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, StatusBar, Pressable} from 'react-native';
-import Logo from '../Components/Logo';
-import Post from '../Requests/Post';
+import Logo from '../../Components/Logo';
+import Post from '../../Requests/Post';
 import {OtpInput} from 'react-native-otp-entry';
-import CostumB from '../Components/CostumB';
-import toast from '../Components/Toast';
-import { API_URL } from '../env';
+import CostumB from '../../Components/CostumB';
+import toast from '../../Components/Toast';
+import {API_URL} from '../../env';
 
 async function Resend(email: string) {
   const data = {
     email: email,
   };
-  const token = await Post(
-    API_URL+'/auth/forgetPassword',
-    data,
-  );
+  const token = await Post(API_URL + '/auth/forgetPassword', data);
   return token;
 }
 
-async function Verify(code: string, token: string,navigation: any) {
+async function Verify(code: string, token: string, navigation: any) {
   const data = {
     code: code,
   };
   const head = {
     headers: {Authorization: `Bearer ${token}`},
   };
-  const response = await Post(
-    API_URL+'/auth/verifyCode',
-    data,
-    head,
-  );
+  const response = await Post(API_URL + '/auth/verifyCode', data, head);
   if (!response) {
     toast('Invalid Verification Code');
     return;
@@ -44,7 +37,7 @@ export default function VerifyCode({route, navigation}: any) {
   const [counter, setCounter] = useState(60);
   const [firstResend, setFirstResend] = useState(true);
   const email = route.params.email;
-  const [animating,setAnimating]=useState(false)
+  const [animating, setAnimating] = useState(false);
   return (
     <>
       <View style={styles.container}>
@@ -77,8 +70,8 @@ export default function VerifyCode({route, navigation}: any) {
           title="Verify"
           animating={animating}
           onPress={async () => {
-            setAnimating(true)
-            await Verify(code, token,navigation);
+            setAnimating(true);
+            await Verify(code, token, navigation);
             setAnimating(false);
           }}
           disabled={disabled}

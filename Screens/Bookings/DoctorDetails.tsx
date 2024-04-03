@@ -1,6 +1,6 @@
 import {View, Image, Text, StatusBar, StyleSheet} from 'react-native';
-import Card from '../Components/Card';
-import CostumB from '../Components/CostumB';
+import Card from '../../Components/Card';
+import CostumB from '../../Components/CostumB';
 interface Props {
   source: any;
   name: string;
@@ -24,11 +24,11 @@ const Img = ({source, title, subtitle}: img) => {
   );
 };
 
-export default function DoctorDetails({route,navigation}: any) {
-  const {source,name,speciality,location}=route.params
+export default function DoctorDetails({route, navigation}: any) {
+  const {source, name, speciality, location} = route.params;
   return (
     <View style={styles.container}>
-      <StatusBar translucent backgroundColor={'transparent'} />
+      <StatusBar backgroundColor={'white'} />
       <View style={{flex: 0.4}}>
         <Card
           name={name}
@@ -40,28 +40,28 @@ export default function DoctorDetails({route,navigation}: any) {
       </View>
       <View style={styles.images}>
         <Img
-          source={require('../Icons/profile.png')}
+          source={require('../../Icons/profile.png')}
           title="2,000+"
           subtitle="patients"
         />
         <Img
-          source={require('../Icons/medal.png')}
+          source={require('../../Icons/medal.png')}
           title="10+"
           subtitle="experience"
         />
         <Img
-          source={require('../Icons/littleStar.png')}
+          source={require('../../Icons/littleStar.png')}
           title="5"
           subtitle="rating"
         />
         <Img
-          source={require('../Icons/messages.png')}
+          source={require('../../Icons/messages.png')}
           title="1,872"
           subtitle="reviews"
         />
       </View>
       <View style={styles.innerContainer}>
-        <Text style={styles.title}>About me</Text>
+        <Text style={styles.title}>ABOUT ME</Text>
         <Text style={styles.description}>
           Dr. David Patel, a dedicated cardiologist, brings a wealth of
           experience to Golden Gate Cardiology Center in Golden Gate, CA.
@@ -71,7 +71,12 @@ export default function DoctorDetails({route,navigation}: any) {
         <Text style={styles.title}>Working Time</Text>
         <Text style={styles.description}>Monday-Friday, 8.00 - 18.00</Text>
       </View>
-      <CostumB title="Book Appointments" onPress={() => {navigation.navigate('bookAppointment')}} />
+      <CostumB
+        title="Book Appointment"
+        onPress={() => {
+          navigation.navigate('bookAppointment');
+        }}
+      />
     </View>
   );
 }
@@ -80,7 +85,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingHorizontal: '3%',
+    paddingHorizontal: '10%',
     paddingTop: 10,
     justifyContent: 'space-evenly',
   },
@@ -91,12 +96,14 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#1F2A37',
-    fontSize: 23,
+    fontSize: 20,
     fontWeight: 'bold',
+    marginBottom: 10,
   },
   innerContainer: {},
   description: {
     color: '#6B7280',
-    fontSize: 16,
+    fontSize: 15,
+    lineHeight: 23,
   },
 });

@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, StatusBar, Pressable} from 'react-native';
-import Logo from '../Components/Logo';
-import Inputtext from '../Components/Inputtext';
+import Logo from '../../Components/Logo';
+import Inputtext from '../../Components/Inputtext';
 
-import {isStrongPassword} from '../Verifications/passwordsMatch';
-import {isValidEmail} from '../Verifications/email';
+import {isStrongPassword} from '../../Verifications/passwordsMatch';
+import {isValidEmail} from '../../Verifications/email';
 
-import toast from '../Components/Toast';
-import Post from '../Requests/Post';
-import CostumB from '../Components/CostumB';
-import {API_URL} from '../env';
+import toast from '../../Components/Toast';
+import Post from '../../Requests/Post';
+import CostumB from '../../Components/CostumB';
+import {API_URL} from '../../env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function verifCredentials(email: string, password: string): boolean {
@@ -23,7 +23,7 @@ function verifCredentials(email: string, password: string): boolean {
   return true;
 }
 
-async function handlePress(email: string, password: string,navigation:any) {
+async function handlePress(email: string, password: string, navigation: any) {
   if (verifCredentials(email, password)) {
     const data = {
       email: email,
@@ -31,10 +31,9 @@ async function handlePress(email: string, password: string,navigation:any) {
     };
     const token = await Post(API_URL + '/auth/login', data);
     //console.log(token);
-    AsyncStorage.setItem('token',token);
-    if(token)
-    {
-      navigation.navigate("Home")
+    AsyncStorage.setItem('token', token);
+    if (token) {
+      navigation.replace('BottomNav');
     }
   }
 }
@@ -53,13 +52,13 @@ export default function Login({navigation}: any) {
         <Text style={styles.innertext}>Hope you're doing fine.</Text>
         <View>
           <Inputtext
-            source={require('../Icons/sms.png')}
+            source={require('../../Icons/sms.png')}
             placeHolder="Your Email"
             keyboardType="email-address"
             changeText={email => setEmail(email)}
           />
           <Inputtext
-            source={require('../Icons/lock.png')}
+            source={require('../../Icons/lock.png')}
             placeHolder="Password"
             secureTextEntry
             changeText={password => setPassword(password)}
@@ -70,7 +69,7 @@ export default function Login({navigation}: any) {
           animating={animating}
           onPress={async () => {
             setAnimating(true);
-            await handlePress(email, password,navigation);
+            await handlePress(email, password, navigation);
             setAnimating(false);
           }}
         />

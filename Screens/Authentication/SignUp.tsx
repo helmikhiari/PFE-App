@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, StatusBar, Pressable} from 'react-native';
-import Logo from '../Components/Logo';
-import Inputtext from '../Components/Inputtext';
-import verifCin from '../Verifications/cin';
+import Logo from '../../Components/Logo';
+import Inputtext from '../../Components/Inputtext';
+import verifCin from '../../Verifications/cin';
 import {
   isStrongPassword,
   passwordsMatch,
-} from '../Verifications/passwordsMatch';
-import {isValidEmail} from '../Verifications/email';
-import toast from '../Components/Toast';
-import Post from '../Requests/Post';
-import {Patient} from '../Types/Patient';
-import CostumB from '../Components/CostumB';
-import { API_URL } from '../env';
+} from '../../Verifications/passwordsMatch';
+import {isValidEmail} from '../../Verifications/email';
+import toast from '../../Components/Toast';
+import Post from '../../Requests/Post';
+import {Patient} from '../../Types/Patient';
+import CostumB from '../../Components/CostumB';
+import {API_URL} from '../../env';
 function verifCredentials({
   cin,
   email,
@@ -47,13 +47,13 @@ async function handlePress(patient: Patient) {
     console.log(token);
   }
 }
-export default function SignUp({navigation}:any) {
+export default function SignUp({navigation}: any) {
   const [cin, setCin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const patient: Patient = {cin, email, password, confirmPassword};
-  const [animating,setAnimating]=useState(false)
+  const [animating, setAnimating] = useState(false);
   return (
     <>
       <View style={styles.container}>
@@ -63,7 +63,7 @@ export default function SignUp({navigation}:any) {
         <Text style={styles.innertext}>We are here to help you!</Text>
         <View>
           <Inputtext
-            source={require('../Icons/cin.png')}
+            source={require('../../Icons/cin.png')}
             placeHolder="CIN"
             keyboardType="decimal-pad"
             changeText={txt => {
@@ -71,19 +71,19 @@ export default function SignUp({navigation}:any) {
             }}
           />
           <Inputtext
-            source={require('../Icons/sms.png')}
+            source={require('../../Icons/sms.png')}
             placeHolder="Your Email"
             keyboardType="email-address"
             changeText={email => setEmail(email)}
           />
           <Inputtext
-            source={require('../Icons/lock.png')}
+            source={require('../../Icons/lock.png')}
             placeHolder="Password"
             secureTextEntry
             changeText={password => setPassword(password)}
           />
           <Inputtext
-            source={require('../Icons/lock.png')}
+            source={require('../../Icons/lock.png')}
             placeHolder="Confirm Password"
             secureTextEntry
             changeText={confirmPassword => setConfirmPassword(confirmPassword)}

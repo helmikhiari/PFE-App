@@ -10,11 +10,9 @@ import {
   StatusBar,
   SafeAreaView,
 } from 'react-native';
-import Search from '../Components/SearchBar';
-import ImageText from '../Components/ImageText';
-import Navigation from '../Screens/Slides/Navigation';
-
-
+import Search from '../../Components/SearchBar';
+import ImageText from '../../Components/ImageText';
+import Navigation from '../../Navigations/Navigation';
 
 export default function Home({navigation}: any) {
   const [showList, setShowList] = useState(false);
@@ -26,7 +24,7 @@ export default function Home({navigation}: any) {
       <View style={styles.cardContainer}>
         <TouchableHighlight
           underlayColor={'white'}
-          onPress={() => navigation.navigate('allDoctors',{text})}>
+          onPress={() => navigation.navigate('allDoctors', {text})}>
           <Image source={source} height={45} width={45} resizeMode="cover" />
         </TouchableHighlight>
         <Text style={styles.cardText}>{text}</Text>
@@ -34,11 +32,13 @@ export default function Home({navigation}: any) {
     );
   };
 
-
-
   return (
-    <SafeAreaView style={[styles.container,showList? {justifyContent:'flex-start'}:{}]}>
-      <StatusBar translucent backgroundColor="transparent" />
+    <SafeAreaView
+      style={[
+        styles.container,
+        showList ? {justifyContent: 'flex-start'} : {},
+      ]}>
+      <StatusBar backgroundColor="white" />
       <Search
         handleChange={txt => setSearchValue(txt)}
         showList={showList}
@@ -50,7 +50,7 @@ export default function Home({navigation}: any) {
           <ImageText
             height={w.height * 0.26}
             width={'100%'}
-            source={require('../Images/Banner.png')}
+            source={require('../../Images/Banner.png')}
             title={'Looking for Specialists Doctors?'}
             subtitle={'Schedule an appointment with our top doctors.'}
           />
@@ -64,29 +64,35 @@ export default function Home({navigation}: any) {
             </Pressable>
           </View>
           <View style={styles.innerContainer2}>
-            <Card source={require('../Images/dentist.png')} text="Dentistry" />
             <Card
-              source={require('../Images/cardiolo.png')}
+              source={require('../../Images/dentist.png')}
+              text="Dentistry"
+            />
+            <Card
+              source={require('../../Images/cardiolo.png')}
               text="Cardiolo.."
             />
-            <Card source={require('../Images/pulmono.png')} text="Pulmono.." />
-            <Card source={require('../Images/general.png')} text="General" />
+            <Card
+              source={require('../../Images/pulmono.png')}
+              text="Pulmono.."
+            />
+            <Card source={require('../../Images/general.png')} text="General" />
           </View>
           <View style={styles.innerContainer2}>
             <Card
-              source={require('../Images/neurology.png')}
+              source={require('../../Images/neurology.png')}
               text="Neurology"
             />
             <Card
-              source={require('../Images/gastroen.png')}
+              source={require('../../Images/gastroen.png')}
               text="Gastroen.."
             />
             <Card
-              source={require('../Images/laborato.png')}
+              source={require('../../Images/laborato.png')}
               text="Laborato.."
             />
             <Card
-              source={require('../Images/vaccinat.png')}
+              source={require('../../Images/vaccinat.png')}
               text="Vaccinat.."
             />
           </View>
@@ -121,7 +127,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems:"center"
+    alignItems: 'center',
   },
   cardText: {
     color: '#4B5563',

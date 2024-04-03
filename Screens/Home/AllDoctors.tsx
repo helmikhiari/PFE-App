@@ -8,10 +8,10 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import {Button} from 'react-native-paper';
-import Search from '../Components/SearchBar';
-import Card from '../Components/Card';
+import Search from '../../Components/SearchBar';
+import Card from '../../Components/Card';
 
-export default function AllDoctors({navigation,route}: any) {
+export default function AllDoctors({navigation, route}: any) {
   const medicalSpecialties = [
     'All',
     'General',
@@ -49,7 +49,7 @@ export default function AllDoctors({navigation,route}: any) {
     'Urologist',
   ];
   const [searchValue, setSearchValue] = useState('');
-  const [selected, setSelected] = useState(0); 
+  const [selected, setSelected] = useState(0);
   const renderCard = ({item, index, w}: any) => {
     let cuttedName: string;
     if (item.name.length > 20) {
@@ -101,7 +101,7 @@ export default function AllDoctors({navigation,route}: any) {
       speciality: 'General',
       numberOfReviews: 1872,
       location: 'Cardiology Center, USA',
-      source: require('../Images/doc1.png'),
+      source: require('../../Images/doc1.png'),
       review: '5',
     },
     {
@@ -109,41 +109,41 @@ export default function AllDoctors({navigation,route}: any) {
       speciality: 'Cardiologist',
       numberOfReviews: 1872,
       location: 'Cardiology Center, USA',
-      source: require('../Images/doc2.png'),
+      source: require('../../Images/doc2.png'),
     },
     {
       name: 'Dr.Yahya Khiari',
       speciality: 'Cardiologist',
       numberOfReviews: 1872,
       location: 'Cardiology Center, USA',
-      source: require('../Images/doc3.png'),
+      source: require('../../Images/doc3.png'),
     },
     {
       name: 'Dr.Ayda Nsir',
       speciality: 'Cardiologist',
       numberOfReviews: 1872,
       location: 'Cardiology Center, USA',
-      source: require('../Images/doc2.png'),
+      source: require('../../Images/doc2.png'),
     },
     {
       name: 'Dr.Farah Albouchi',
       speciality: 'Cardiologist',
       numberOfReviews: 1872,
       location: 'Cardiology Center, USA',
-      source: require('../Images/doc2.png'),
+      source: require('../../Images/doc2.png'),
     },
     {
       name: 'Dr.Helmi Khiari',
       speciality: 'Cardiologist',
       numberOfReviews: 1872,
       location: 'Cardiology Center, USA',
-      source: require('../Images/doc2.png'),
+      source: require('../../Images/doc2.png'),
     },
   ];
 
   return (
     <>
-      <StatusBar translucent backgroundColor={'transparent'} />
+      <StatusBar backgroundColor={'white'} />
       <View style={styles.container}>
         <View style={styles.searchBar}>
           <Search showList={false} handleChange={txt => setSearchValue(txt)} />
@@ -157,13 +157,13 @@ export default function AllDoctors({navigation,route}: any) {
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
-        
-          <FlatList style={{paddingTop:3}}
-            data={doctors}
-            renderItem={renderCard}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        
+
+        <FlatList
+          style={{paddingTop: 3}}
+          data={doctors}
+          renderItem={renderCard}
+          keyExtractor={(item, index) => index.toString()}
+        />
       </View>
     </>
   );

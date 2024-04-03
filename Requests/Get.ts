@@ -2,7 +2,7 @@ import axios from "axios";
 import { Alert } from "react-native";
 
 
-export default async function Get(path:string,token:string)
+export default async function Get(path:string,token:string|null)
 {   
     try{
         const head = {

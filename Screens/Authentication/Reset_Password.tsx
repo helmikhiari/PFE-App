@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, StatusBar, Pressable} from 'react-native';
-import Logo from '../Components/Logo';
-import Inputtext from '../Components/Inputtext';
-import toast from '../Components/Toast';
-import Post from '../Requests/Post';
-import CostumB from '../Components/CostumB';
-import {passwordsMatch} from '../Verifications/passwordsMatch';
-import Patch from '../Requests/Patch';
-import { API_URL } from '../env';
+import Logo from '../../Components/Logo';
+import Inputtext from '../../Components/Inputtext';
+import toast from '../../Components/Toast';
+import Post from '../../Requests/Post';
+import CostumB from '../../Components/CostumB';
+import {passwordsMatch} from '../../Verifications/passwordsMatch';
+import Patch from '../../Requests/Patch';
+import {API_URL} from '../../env';
 
 async function handleRequest(
   token: string,
@@ -26,11 +26,7 @@ async function handleRequest(
   const head = {
     headers: {Authorization: `Bearer ${token}`},
   };
-  const response = await Patch(
-    API_URL+'/auth/resetPassword',
-    data,
-    head,
-  );
+  const response = await Patch(API_URL + '/auth/resetPassword', data, head);
   console.log(response);
 }
 
@@ -38,8 +34,8 @@ export default function ForgetPassword({route, navigation}: any) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const {token, code} = route.params;
-  const [animating,setAnimating]=useState(false)
-  
+  const [animating, setAnimating] = useState(false);
+
   return (
     <>
       <View style={styles.container}>
@@ -51,12 +47,12 @@ export default function ForgetPassword({route, navigation}: any) {
         </Text>
         <View style={styles.innerContainer}>
           <Inputtext
-            source={require('../Icons/sms.png')}
+            source={require('../../Icons/sms.png')}
             placeHolder="Password"
             changeText={password => setPassword(password)}
           />
           <Inputtext
-            source={require('../Icons/sms.png')}
+            source={require('../../Icons/sms.png')}
             placeHolder="Confirm Password"
             changeText={confirmPassword => setConfirmPassword(confirmPassword)}
           />
@@ -65,9 +61,9 @@ export default function ForgetPassword({route, navigation}: any) {
           title="Reset Password"
           animating={animating}
           onPress={async () => {
-            setAnimating(true)
+            setAnimating(true);
             await handleRequest(token, code, password, confirmPassword);
-            setAnimating(false)
+            setAnimating(false);
           }}
         />
       </View>

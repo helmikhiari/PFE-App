@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, StatusBar} from 'react-native';
-import Logo from '../Components/Logo';
-import Inputtext from '../Components/Inputtext';
-import {isValidEmail} from '../Verifications/email';
-import toast from '../Components/Toast';
-import Post from '../Requests/Post';
-import CostumB from '../Components/CostumB';
-import {API_URL} from '../env';
+import Logo from '../../Components/Logo';
+import Inputtext from '../../Components/Inputtext';
+import {isValidEmail} from '../../Verifications/email';
+import toast from '../../Components/Toast';
+import Post from '../../Requests/Post';
+import CostumB from '../../Components/CostumB';
+import {API_URL} from '../../env';
 
 function verifCredentials(email: string) {
   if (!isValidEmail(email)) {
@@ -52,7 +52,7 @@ export default function ForgetPassword({navigation}: any) {
         </Text>
         <View style={styles.innerContainer}>
           <Inputtext
-            source={require('../Icons/sms.png')}
+            source={require('../../Icons/sms.png')}
             placeHolder="Your Email"
             keyboardType="email-address"
             changeText={email => setEmail(email)}
