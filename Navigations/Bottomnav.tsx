@@ -7,8 +7,18 @@ import {Text, BottomNavigation} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from '../Screens/Home/Home';
 import Settings from '../Screens/Settings/Settings';
+import TopNav from './TopNav';
+import { FontDisplay } from 'expo-font';
 
 const Tab = createBottomTabNavigator();
+
+type Options = {
+  
+  headerTitleAlign?: 'center' | 'left';
+  headerTitleAllowFontScaling?: boolean;
+  headerShown?: boolean;
+  headerTitleStyle?: object;
+};
 
 export default function BottomNav() {
   return (
@@ -45,7 +55,7 @@ export default function BottomNav() {
 
             return null;
           }}
-          getLabelText={({route}: any) => {
+          getLabelText={({route}) => {
             const {options} = descriptors[route.key];
             const label =
               options.tabBarLabel !== undefined
@@ -62,6 +72,7 @@ export default function BottomNav() {
         name="Home"
         component={Home}
         options={{
+          ...header,
           tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => {
             return <Icon name="home" size={size} color={color} />;
@@ -72,9 +83,20 @@ export default function BottomNav() {
         name="Settings"
         component={Settings}
         options={{
+          ...header,
           tabBarLabel: 'Settings',
           tabBarIcon: ({color, size}) => {
             return <Icon name="cog" size={size} color={color} />;
+          },
+        }}
+      />
+      <Tab.Screen
+        name="My Bookings"
+        component={TopNav}
+        options={{
+          ...header,
+          tabBarIcon: ({color, size}) => {
+            return <Icon name="calendar-month-outline" size={size} color={color} />;
           },
         }}
       />
@@ -82,26 +104,20 @@ export default function BottomNav() {
   );
 }
 
-function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Text variant="headlineMedium">Home!</Text>
-    </View>
-  );
-}
 
-function SettingsScreen() {
-  return (
-    <View style={styles.container}>
-      <Text variant="headlineMedium">Settings!</Text>
-    </View>
-  );
-}
 
+const header:Options=
+{
+  headerTitleAlign:'center',
+  headerTitleAllowFontScaling:true,
+  headerShown:true,
+  headerTitleStyle:{fontSize:23}
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+
 });

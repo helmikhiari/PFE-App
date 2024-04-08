@@ -7,11 +7,14 @@ import {
   Text,
   useWindowDimensions,
 } from 'react-native';
-import {Button} from 'react-native-paper';
+import {ActivityIndicator, Button} from 'react-native-paper';
 import Search from '../../Components/SearchBar';
 import Card from '../../Components/Card';
+import { API_URL } from '../../env';
+import Get from '../../Requests/Get';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function AllDoctors({navigation, route}: any) {
+export default  function AllDoctors({navigation, route}: any) {
   const medicalSpecialties = [
     'All',
     'General',
@@ -50,24 +53,26 @@ export default function AllDoctors({navigation, route}: any) {
   ];
   const [searchValue, setSearchValue] = useState('');
   const [selected, setSelected] = useState(0);
+  
   const renderCard = ({item, index, w}: any) => {
     let cuttedName: string;
-    if (item.name.length > 20) {
-      cuttedName = item.name.substring(0, 15) + '...';
+    let name=item.firstName+" "+item.lastName
+    if (name.length > 20) {
+      cuttedName = name.substring(0, 15) + '...';
     } else {
-      cuttedName = item.name;
+      cuttedName = name;
     }
     if (
       (item.speciality == medicalSpecialties[selected] || selected == 0) &&
-      item.name.toLowerCase().includes(searchValue.toLowerCase())
+      name.toLowerCase().includes(searchValue.toLowerCase())
     ) {
       return (
         <Card
-          source={item.source}
+          source={{uri:item.picture}}
           name={cuttedName}
           speciality={item.speciality}
           numberOfReviews={item.numberOfReviews}
-          location={item.location}
+          location={item.address}
           review={item.review}
           onPress={() => {
             navigation.navigate('doctorDetails', item);
@@ -95,53 +100,31 @@ export default function AllDoctors({navigation, route}: any) {
       {item}
     </Button>
   );
-  const doctors = [
-    {
-      name: 'Dr.David Patel',
-      speciality: 'General',
-      numberOfReviews: 1872,
-      location: 'Cardiology Center, USA',
-      source: require('../../Images/doc1.png'),
-      review: '5',
-    },
-    {
-      name: 'Dr.David Patel Ghand',
-      speciality: 'Cardiologist',
-      numberOfReviews: 1872,
-      location: 'Cardiology Center, USA',
-      source: require('../../Images/doc2.png'),
-    },
-    {
-      name: 'Dr.Yahya Khiari',
-      speciality: 'Cardiologist',
-      numberOfReviews: 1872,
-      location: 'Cardiology Center, USA',
-      source: require('../../Images/doc3.png'),
-    },
-    {
-      name: 'Dr.Ayda Nsir',
-      speciality: 'Cardiologist',
-      numberOfReviews: 1872,
-      location: 'Cardiology Center, USA',
-      source: require('../../Images/doc2.png'),
-    },
-    {
-      name: 'Dr.Farah Albouchi',
-      speciality: 'Cardiologist',
-      numberOfReviews: 1872,
-      location: 'Cardiology Center, USA',
-      source: require('../../Images/doc2.png'),
-    },
-    {
-      name: 'Dr.Helmi Khiari',
-      speciality: 'Cardiologist',
-      numberOfReviews: 1872,
-      location: 'Cardiology Center, USA',
-      source: require('../../Images/doc2.png'),
-    },
-  ];
+  
+  const [loading,setLoading]=useState(true)
+  const [data,setData]=useState()
+useEffect(()=>{
+  const fetchDoctors=async ()=>{
+  try
+  { const token= await AsyncStorage.getItem('token');
+    const response =  await Get(API_URL + '/patient/allDoctors',token);
+    console.log(response)
+    setData(response)
+  }
+  catch(error)
+  {
+    throw error;
+  }
+  finally
+  { 
+    setLoading(true)
+  }
+}
+fetchDoctors()
+},[])
+  
 
-  return (
+return loading?(
     <>
       <StatusBar backgroundColor={'white'} />
       <View style={styles.container}>
@@ -160,13 +143,14 @@ export default function AllDoctors({navigation, route}: any) {
 
         <FlatList
           style={{paddingTop: 3}}
-          data={doctors}
+          data={data}
           renderItem={renderCard}
           keyExtractor={(item, index) => index.toString()}
         />
       </View>
     </>
-  );
+  ):
+  (<ActivityIndicator/>);
 }
 
 const styles = StyleSheet.create({

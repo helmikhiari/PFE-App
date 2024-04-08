@@ -1,16 +1,22 @@
-import {View, Image, Text, StatusBar, StyleSheet} from 'react-native';
+import {View, Image, Text, StatusBar, StyleSheet, ImageProps, ImageSourcePropType} from 'react-native';
 import Card from '../../Components/Card';
 import CostumB from '../../Components/CostumB';
-interface Props {
-  source: any;
-  name: string;
-  speciality: string;
-  location: string;
-}
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '../../env';
+import Get from '../../Requests/Get';
+
 interface img {
-  source: any;
-  title: string;
+  source: ImageSourcePropType;
+  title: number;
   subtitle: string;
+}
+
+interface DoctorDetails{
+  bio:string;
+  numberOfPatients:number;
+  experience:number;
+  workingTime?:string
 }
 const Img = ({source, title, subtitle}: img) => {
   return (
@@ -24,47 +30,70 @@ const Img = ({source, title, subtitle}: img) => {
   );
 };
 
+
+
 export default function DoctorDetails({route, navigation}: any) {
-  const {source, name, speciality, location} = route.params;
-  return (
+  const {_id,picture, firstName,lastName, speciality, address,rating,numberOfRatings} = route.params;
+  const [details,setDetails]=useState<DoctorDetails>()
+  useEffect(()=>{
+    const fetchDoctorDetails=async()=>
+      {
+        try
+        {
+          const token=await AsyncStorage.getItem('token');
+          const response=await Get(API_URL+'/patient/doctorDetails/'+_id,token);
+          setDetails(response);
+        }
+        catch(error)
+        {
+          throw error;
+        }
+       
+      }
+      fetchDoctorDetails()
+  },[])
+
+
+
+  return details?(
     <View style={styles.container}>
       <StatusBar backgroundColor={'white'} />
       <View style={{flex: 0.4}}>
         <Card
-          name={name}
+          name={firstName+" "+lastName}
           speciality={speciality}
-          location={location}
-          source={source}
+          location={address}
+          source={{uri:picture}}
           disabled={true}
         />
       </View>
       <View style={styles.images}>
         <Img
           source={require('../../Icons/profile.png')}
-          title="2,000+"
+          title={details.numberOfPatients}
           subtitle="patients"
         />
         <Img
           source={require('../../Icons/medal.png')}
-          title="10+"
+          title={details.experience}
           subtitle="experience"
         />
         <Img
           source={require('../../Icons/littleStar.png')}
-          title="5"
+          title={rating}
           subtitle="rating"
         />
         <Img
           source={require('../../Icons/messages.png')}
-          title="1,872"
+          title={numberOfRatings}
           subtitle="reviews"
         />
+       
       </View>
       <View style={styles.innerContainer}>
         <Text style={styles.title}>ABOUT ME</Text>
         <Text style={styles.description}>
-          Dr. David Patel, a dedicated cardiologist, brings a wealth of
-          experience to Golden Gate Cardiology Center in Golden Gate, CA.
+          {details.bio}
         </Text>
       </View>
       <View>
@@ -74,18 +103,19 @@ export default function DoctorDetails({route, navigation}: any) {
       <CostumB
         title="Book Appointment"
         onPress={() => {
-          navigation.navigate('bookAppointment');
+          navigation.navigate('bookAppointment',{_id});
         }}
       />
     </View>
-  );
+  ):
+  null
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingHorizontal: '10%',
+    paddingHorizontal: '6%',
     paddingTop: 10,
     justifyContent: 'space-evenly',
   },

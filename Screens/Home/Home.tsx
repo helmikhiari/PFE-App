@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import Search from '../../Components/SearchBar';
 import ImageText from '../../Components/ImageText';
-import Navigation from '../../Navigations/Navigation';
 
 export default function Home({navigation}: any) {
   const [showList, setShowList] = useState(false);

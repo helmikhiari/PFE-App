@@ -5,8 +5,9 @@ import * as ImagePickerr from 'react-native-image-picker';
 import { MediaType } from 'react-native-image-picker';
 interface Props {
   source: any;
+  changeImage:(imageAssets:object)=>void;
 }
-export default function ImagePicker({source}: Props) {
+export default function ImagePicker({source,changeImage}: Props) {
   const [avatarSource, setAvatarSource] = useState(source);
     const a:MediaType='photo'
   const options = {
@@ -27,9 +28,13 @@ export default function ImagePicker({source}: Props) {
       } else if (response.assets) {
         const source: any = {uri: response.assets[0].uri};
         setAvatarSource(source);
+        changeImage(response.assets[0]);
       }
     });
   };
+
+
+
   const w=useWindowDimensions()
   return (
     <View style={styles.container}>
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 175,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   button: {
     position: 'absolute',

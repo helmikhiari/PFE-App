@@ -10,16 +10,68 @@ import {
 import {Button, Calendar, Card} from '@ui-kitten/components';
 import CostumB from '../../Components/CostumB';
 import {Modal} from '@ui-kitten/components';
-export default function Appointment() {
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Get from '../../Requests/Get';
+import {API_URL} from '../../env';
+import Post from '../../Requests/Post';
+
+export default function Appointment({route}: any) {
   const [date, setDate] = useState(new Date());
   const [selected, setSelected] = useState(-1);
   const [visible, setVisible] = useState(false);
+  const [times, setTimes] = useState([]);
+  const doctorId = route.params._id;
+  const [Confirmation, setConfirmation] = useState();
+
+  const handleConfirmation = async () => {
+    const token = await AsyncStorage.getItem('token');
+    const Hours = times[selected][0] + times[selected][1];
+    const Min = times[selected][3] + times[selected][4];
+    const a: number = date.getDate();
+    date.setUTCHours(Hours, Min);
+    date.setDate(a);
+
+    console.log(date);
+    const data = {date: date};
+    const response = await Post(
+      API_URL + '/patient/bookApp?doctorId=' + doctorId,
+      data,
+      token,
+    );
+    setConfirmation(response);
+
+    setVisible(true);
+  };
+
   useEffect(() => {
-    const calendar = () => {
-      console.log('date', date);
+    const fetchData = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        const dateToSend =
+          date.getFullYear() +
+          '-' +
+          (date.getMonth() + 1) +
+          '-' +
+          date.getDate();
+        const response = await Get(
+          API_URL + '/doctor/Availibility/' + doctorId + '/' + dateToSend,
+          token,
+        );
+        setTimes(response);
+      } catch (error) {
+        throw error;
+      }
     };
-    calendar();
-  }, [date]);
+    fetchData();
+  }, [date, visible]);
+
+  const filterDays = (d: Date) => {
+    const day = d.getDay();
+    const dayOfMonth = d.getDate();
+    const today = new Date().getDate();
+    return !(day == 0 || day == 6 || dayOfMonth < today);
+  };
+
   const renderTime = (item: any, index: number) => {
     const chosen: boolean = index == selected;
     return (
@@ -29,40 +81,11 @@ export default function Appointment() {
           setSelected(index);
         }}>
         <Text style={[styles.buttonText, chosen ? {color: 'white'} : null]}>
-          {item.time}
+          {item}
         </Text>
       </TouchableHighlight>
     );
   };
-  const times = [
-    {
-      time: '11:00',
-    },
-    {
-      time: '11:30',
-    },
-    {
-      time: '12:00',
-    },
-    {
-      time: '14:00',
-    },
-    {
-      time: '14:00',
-    },
-    {
-      time: '14:00',
-    },
-    {
-      time: '14:00',
-    },
-    {
-      time: '14:00',
-    },
-    {
-      time: '14:00',
-    },
-  ];
   return (
     <View style={{flex: 1, justifyContent: 'space-evenly'}}>
       <View style={styles.container}>
@@ -72,10 +95,7 @@ export default function Appointment() {
           date={date}
           onSelect={nextDate => setDate(nextDate)}
           style={{borderRadius: 18, alignSelf: 'center'}}
-          filter={d => {
-            const day = d.getDay();
-            return !(day == 0 || day == 6);
-          }}
+          filter={filterDays}
         />
         <Text style={styles.text}>Select Hour</Text>
         <ScrollView
@@ -88,12 +108,7 @@ export default function Appointment() {
           {times.map((item, index) => renderTime(item, index))}
         </ScrollView>
       </View>
-      <CostumB
-        title="Confirm"
-        onPress={() => {
-          setVisible(true);
-        }}
-      />
+      <CostumB title="Confirm" onPress={handleConfirmation} />
 
       <Modal
         animationType="slide"
@@ -103,9 +118,7 @@ export default function Appointment() {
         <Card
           disabled={false}
           style={{borderRadius: 20, marginHorizontal: '3%'}}>
-          <Text style={[styles.text, {fontSize: 16}]}>
-            Appointment Booked,Waiting For Confirmation from Doctor
-          </Text>
+          <Text style={[styles.text, {fontSize: 16}]}>{Confirmation}</Text>
           <Button onPress={() => setVisible(false)}>DISMISS</Button>
         </Card>
       </Modal>

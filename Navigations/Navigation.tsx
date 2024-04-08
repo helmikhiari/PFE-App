@@ -15,11 +15,13 @@ import AllDoctors from '../Screens/Home/AllDoctors';
 import DoctorDetails from '../Screens/Bookings/DoctorDetails';
 import Appointment from '../Screens/Bookings/Appointment';
 import Profile from '../Screens/Settings/Settings';
+import Test from '../Screens/Settings/test';
+import TopNav from './TopNav';
 import BottomNav from './Bottomnav';
 export default function Navigation() {
   const Stack = createNativeStackNavigator();
   const [screen, setScreen] = useState('');
-  useEffect(() => {
+  /* useEffect(() => {
     const checkToken = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -37,11 +39,11 @@ export default function Navigation() {
       }
     };
     checkToken();
-  }, []);
+  }, []);*/
 
-  return screen ? (
+  return true ? (
     <Stack.Navigator
-      initialRouteName={screen}
+      initialRouteName={'BottomNav'}
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="slides" component={Slides} />
@@ -71,8 +73,8 @@ export default function Navigation() {
         component={Profile}
         options={{
           ...header,
-          title: 'Settings',
-          headerTitleStyle: {fontSize: 25, fontWeight: '600'},
+          title: 'Profile',
+          headerTitleStyle: { fontSize: 25, fontWeight: '600'},
         }}
       />
       <Stack.Screen
@@ -84,6 +86,12 @@ export default function Navigation() {
           headerTitleStyle: {fontSize: 25, fontWeight: '600'},
           headerShown: false,
         }}
+      />
+      <Stack.Screen name="test" component={Test} />
+      <Stack.Screen
+        name="topNav"
+        component={TopNav}
+        options={{...header, title: 'My Bookings',headerTitleStyle: {fontSize: 25, fontWeight: '600'}}}
       />
     </Stack.Navigator>
   ) : (

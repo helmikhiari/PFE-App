@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
   img: {
     width: 25,
     height: 25,
+    resizeMode:'contain'
   },
   arrowContainer: {
     alignItems:"center",

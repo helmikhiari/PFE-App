@@ -1,32 +1,19 @@
 import React, {useRef, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  useWindowDimensions,
-} from 'react-native';
+import {StyleSheet, Text, View, useWindowDimensions} from 'react-native';
 import {MediaType, PresentationStyle} from 'react-native-image-picker';
 import ImagePicker from '../../Components/ImagePicker';
 import ListButton from '../../Components/ListButton';
 import Line from '../../Components/Line';
-
 import {BottomSheet, Button} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Post from '../../Requests/Post';
+import { API_URL } from '../../env';
+import Patch from '../../Requests/Patch';
 
 export default function Settings({navigation}: any) {
   const [avatarSource, setAvatarSource] = useState(null);
-  console.log(ImagePicker);
-  const p: MediaType = 'video';
-  const z: PresentationStyle = 'popover';
-  const options = {
-    title: 'Select Avatar',
-    storageOptions: {
-      skipBackup: true,
-      path: 'images',
-    },
-    mediaType: p,
-    presentationStyle: z,
-  };
+  const [isVisible, setIsVisible] = useState(false);
+
 
   async function handleLogout() {
     try {
@@ -37,40 +24,25 @@ export default function Settings({navigation}: any) {
       console.error('Error removing data:', error);
     }
   }
-  const [isVisible, setIsVisible] = useState(false);
+
   const Logout = () => {
     const x = useWindowDimensions();
 
     return (
-      <View
-        style={{
-          justifyContent: 'space-around',
-          backgroundColor: 'white',
-          height: x.height / 5,
-          borderTopLeftRadius: 40,
-          borderTopRightRadius: 40,
-        }}>
+      <View style={{...logoutStyles.container, height: x.height / 5}}>
         <View style={{alignItems: 'center'}}>
-          <Text
-            style={{
-              fontSize: 25,
-              color: '#1C2A3A',
-              fontWeight: '600',
-              paddingBottom: '3%',
-            }}>
-            Logout
-          </Text>
+          <Text style={logoutStyles.title}>Logout</Text>
           <Line />
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>
+          <Text style={logoutStyles.subtitle}>
             Are you sure you want to log out?
           </Text>
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+        <View style={logoutStyles.innerContainer}>
           <Button
             color={'#E5E7EB'}
             title={'Cancel'}
-            titleStyle={{color: '#1C2A3A', fontWeight: 'bold', fontSize: 18}}
-            containerStyle={{borderRadius: 20, width: '40%'}}
+            titleStyle={{color: '#1C2A3A', ...logoutStyles.buttonText}}
+            containerStyle={logoutStyles.buttonContainer}
             onPress={() => {
               setIsVisible(false);
             }}
@@ -78,8 +50,8 @@ export default function Settings({navigation}: any) {
           <Button
             color={'#1C2A3A'}
             title={'Yes, Log out'}
-            titleStyle={{color: '#E5E7EB', fontWeight: 'bold', fontSize: 18}}
-            containerStyle={{borderRadius: 20, width: '40%'}}
+            titleStyle={{color: '#E5E7EB', ...logoutStyles.buttonText}}
+            containerStyle={logoutStyles.buttonContainer}
             onPress={() => {
               handleLogout();
             }}
@@ -89,10 +61,37 @@ export default function Settings({navigation}: any) {
     );
   };
 
+  const changeImage = async (imageData: any) => {
+    const formData = new FormData();
+    formData.append('image', {
+      uri: imageData.uri,
+      type: imageData.type,
+      name: imageData.fileName,
+    });
+    formData.append('data', JSON.stringify({
+      key1: 'value1',
+      key2: 'value2',
+    }));
+
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const response = await Patch(API_URL + '/patient/changeProfileImage', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
+        },
+      });
+      console.log('Upload successful:', response.imageUrl);
+      setAvatarSource(response.imageUrl);
+    } catch (error) {
+      console.error('Upload error:', error);
+    }
+  };
+
   return (
     <>
       <View style={styles.container}>
-        <ImagePicker source={undefined} />
+        <ImagePicker source={undefined} changeImage={changeImage} />
         <View style={styles.innerContainer}>
           <Text style={styles.name}>Daniel Martinez</Text>
           <Text style={styles.number}>+123 45678912345</Text>
@@ -185,5 +184,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: '2%',
     paddingBottom: '5%',
+  },
+});
+
+const logoutStyles = StyleSheet.create({
+  container: {
+    justifyContent: 'space-around',
+    backgroundColor: 'white',
+
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+  },
+  title: {
+    fontSize: 25,
+    color: '#1C2A3A',
+    fontWeight: '600',
+    paddingBottom: '3%',
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  innerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  buttonContainer: {
+    borderRadius: 20,
+    width: '40%',
   },
 });

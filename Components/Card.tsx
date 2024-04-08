@@ -42,10 +42,13 @@ export default function Card({
     }).start();
   }, [fadeAnim]);
   return (
-  //  <Animated.View style={{opacity: fadeAnim}}>
-      <TouchableOpacity style={[styles.card, {height: w.height / 6}]} onPress={onPress} disabled={disabled}>
-        <>
-          <View style={{justifyContent: 'center', width: '40%'}}>
+   // <Animated.View style={{opacity: fadeAnim}}>
+    
+      <TouchableOpacity style={[styles.card,{height:w.height/6}]} onPress={onPress} disabled={disabled}>
+        
+        
+        <View style={{flexDirection:"row",flex:0.8,borderWidth:0}}>
+          <View style={{justifyContent: 'center', width: '40%',height:"100%"}}>
             <Image source={source} style={styles.img} />
           </View>
           <View style={{justifyContent: 'center',width:"70%"}}>
@@ -65,17 +68,19 @@ export default function Card({
               </View>}
             </View>
           </View>
-        </>
+          </View>
+        
       </TouchableOpacity>
-    //</Animated.View>
+     
+  //  </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: 'row',
+    
     width: '95%',
-    height: '100%',
+   
     backgroundColor: 'white',
     flex: 1,
     shadowColor: 'black',
@@ -87,10 +92,11 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
     paddingHorizontal: 28,
     alignSelf: 'center',
+    justifyContent:"center",
   },
   img: {
-    width: '85%',
-    height: '85%',
+    width: '90%',
+    height: '100%',
     borderRadius: 12,
     resizeMode: 'cover',
   },
