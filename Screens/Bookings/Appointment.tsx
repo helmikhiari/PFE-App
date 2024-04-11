@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import {Button, Calendar, Card} from '@ui-kitten/components';
 import CostumB from '../../Components/CostumB';
-import {Modal} from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Get from '../../Requests/Get';
 import {API_URL} from '../../env';
 import Post from '../../Requests/Post';
+import CustomAlert from '../../Components/CustomAlert';
 
 export default function Appointment({route}: any) {
   const [date, setDate] = useState(new Date());
@@ -21,7 +21,9 @@ export default function Appointment({route}: any) {
   const [visible, setVisible] = useState(false);
   const [times, setTimes] = useState([]);
   const doctorId = route.params._id;
+  console.log(doctorId)
   const [Confirmation, setConfirmation] = useState();
+  const [request,setRequest]=useState(false)
 
   const handleConfirmation = async () => {
     const token = await AsyncStorage.getItem('token');
@@ -105,23 +107,15 @@ export default function Appointment({route}: any) {
             flexWrap: 'wrap',
           }}
           style={{marginBottom: '8%'}}>
-          {times.map((item, index) => renderTime(item, index))}
+          {times&&times.map((item, index) => renderTime(item, index))}
         </ScrollView>
       </View>
       <CostumB title="Confirm" onPress={handleConfirmation} />
-
-      <Modal
-        animationType="slide"
-        visible={visible}
-        backdropStyle={styles.backdrop}
-        onBackdropPress={() => setVisible(false)}>
-        <Card
-          disabled={false}
-          style={{borderRadius: 20, marginHorizontal: '3%'}}>
-          <Text style={[styles.text, {fontSize: 16}]}>{Confirmation}</Text>
+      
+        <CustomAlert visible={visible} onBackdropPress={()=>setVisible(false)}>
+        <Text style={[styles.text, {fontSize: 16}]}>{Confirmation}</Text>
           <Button onPress={() => setVisible(false)}>DISMISS</Button>
-        </Card>
-      </Modal>
+          </CustomAlert>
     </View>
   );
 }

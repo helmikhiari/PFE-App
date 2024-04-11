@@ -19,10 +19,8 @@ async function Verify(code: string, token: string, navigation: any) {
   const data = {
     code: code,
   };
-  const head = {
-    headers: {Authorization: `Bearer ${token}`},
-  };
-  const response = await Post(API_URL + '/auth/verifyCode', data, head);
+
+  const response = await Post(API_URL + '/auth/verifyCode', data, token);
   if (!response) {
     toast('Invalid Verification Code');
     return;

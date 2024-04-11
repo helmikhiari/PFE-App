@@ -15,12 +15,16 @@ import AllDoctors from '../Screens/Home/AllDoctors';
 import DoctorDetails from '../Screens/Bookings/DoctorDetails';
 import Appointment from '../Screens/Bookings/Appointment';
 import Profile from '../Screens/Settings/Settings';
-import Test from '../Screens/Settings/test';
 import TopNav from './TopNav';
 import BottomNav from './Bottomnav';
+import Notifications from '../Screens/Settings/Notifications';
+import { useNavigation } from '@react-navigation/native';
+
+
 export default function Navigation() {
   const Stack = createNativeStackNavigator();
   const [screen, setScreen] = useState('');
+
   /* useEffect(() => {
     const checkToken = async () => {
       try {
@@ -87,11 +91,20 @@ export default function Navigation() {
           headerShown: false,
         }}
       />
-      <Stack.Screen name="test" component={Test} />
       <Stack.Screen
         name="topNav"
         component={TopNav}
         options={{...header, title: 'My Bookings',headerTitleStyle: {fontSize: 25, fontWeight: '600'}}}
+      />
+      <Stack.Screen
+        name="notifications"
+        component={Notifications}
+        options={{...header, title: 'Notifications',headerTitleStyle: {fontSize: 25, fontWeight: '600'}}}
+      />
+       <Stack.Screen
+        name="BookApp"
+        component={Appointment}
+        options={{...header, title: 'Notifications',headerTitleStyle: {fontSize: 25, fontWeight: '600'}}}
       />
     </Stack.Navigator>
   ) : (

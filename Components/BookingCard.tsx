@@ -46,12 +46,12 @@ const BookingCard = ({source, date, name, speciality, location,leftButtonOnPress
       <View style={{paddingTop:10,paddingBottom:10}}>
         <Line/>
       </View>
-      <View style={[{flexDirection: 'row'},leftButtonTitle? {justifyContent:"space-between"}:{justifyContent:"center"}]}>
+      <View style={[{flexDirection: 'row',width:"100%",borderWidth:0},leftButtonTitle? {justifyContent:"space-between"}:{justifyContent:"center"}]}>
         {leftButtonTitle&&(<Button
           style={{backgroundColor:"#E5E7EB",width:"48%"}}
           textColor='#1C2A3A'
           mode="contained"
-          onPress={rightButtonOnPress}
+          onPress={leftButtonOnPress}
         >
         <Text style={{fontWeight:"bold",fontSize:15 }}>{leftButtonTitle}</Text>
        </Button>)}
@@ -59,7 +59,7 @@ const BookingCard = ({source, date, name, speciality, location,leftButtonOnPress
          
           mode="contained"
           style={[{backgroundColor:"#1C2A3A"},leftButtonTitle?{width:"48%"}:{width:"95%"}]}
-          onPress={leftButtonOnPress}>
+          onPress={rightButtonOnPress}>
         <Text style={{fontWeight:"bold",fontSize:15 }}>{rightButtonTitle}</Text>
         </Button>
       </View>
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
   card: {
     width: '95%',
     backgroundColor: 'white',
-
     shadowColor: 'black',
     elevation: 5,
     shadowOpacity: 0.25,

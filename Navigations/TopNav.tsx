@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import { Layout, Tab, TabView, Text } from '@ui-kitten/components';
 import UpComingBookings from '../Screens/Bookings/UpcomingBookings';
 import CompletedBookings from '../Screens/Bookings/CompletedBookings';
-import CanceledBookings from '../Screens/Bookings/PendingBookings';
 import PendingBookings from '../Screens/Bookings/PendingBookings';
 
 
@@ -30,7 +29,7 @@ import PendingBookings from '../Screens/Bookings/PendingBookings';
           <CompletedBookings/>
         </Layout>
       </Tab>
-      <Tab title={(styles:any)=><Text style={[styles.style,{fontSize:16}]}>Canceled</Text>}>
+      <Tab title={(styles:any)=><Text style={[styles.style,{fontSize:16}]}>Pending</Text>}>
         <Layout style={styles.tabContainer}>
           <PendingBookings/>
         </Layout>

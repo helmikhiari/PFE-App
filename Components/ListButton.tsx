@@ -1,5 +1,5 @@
 import { TouchableOpacity } from 'react-native';
-import { View, Text, StyleSheet, Touchable} from 'react-native';
+import { View, Text, StyleSheet} from 'react-native';
 import {Image} from 'react-native-elements';
 interface Props
 {

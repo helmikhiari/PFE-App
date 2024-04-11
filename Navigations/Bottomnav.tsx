@@ -1,14 +1,14 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import { StyleSheet} from 'react-native';
 
 import {CommonActions} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Text, BottomNavigation} from 'react-native-paper';
+import {BottomNavigation} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from '../Screens/Home/Home';
 import Settings from '../Screens/Settings/Settings';
 import TopNav from './TopNav';
-import { FontDisplay } from 'expo-font';
+
 
 const Tab = createBottomTabNavigator();
 
