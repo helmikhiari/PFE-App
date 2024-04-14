@@ -19,6 +19,8 @@ import TopNav from './TopNav';
 import BottomNav from './Bottomnav';
 import Notifications from '../Screens/Settings/Notifications';
 import { useNavigation } from '@react-navigation/native';
+import { Button } from '@ui-kitten/components';
+
 
 
 export default function Navigation() {
@@ -47,7 +49,7 @@ export default function Navigation() {
 
   return true ? (
     <Stack.Navigator
-      initialRouteName={'BottomNav'}
+      initialRouteName={'notifications'}
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="slides" component={Slides} />
@@ -99,7 +101,7 @@ export default function Navigation() {
       <Stack.Screen
         name="notifications"
         component={Notifications}
-        options={{...header, title: 'Notifications',headerTitleStyle: {fontSize: 25, fontWeight: '600'}}}
+        options={{...header, title: 'Notifications',headerTitleStyle: {fontSize: 25, fontWeight: '600'},headerRight:()=><Button>1 New</Button>}}
       />
        <Stack.Screen
         name="BookApp"

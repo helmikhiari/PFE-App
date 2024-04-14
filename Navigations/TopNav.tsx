@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Layout, Tab, TabView, Text } from '@ui-kitten/components';
 import UpComingBookings from '../Screens/Bookings/UpcomingBookings';
@@ -7,9 +7,9 @@ import PendingBookings from '../Screens/Bookings/PendingBookings';
 
 
 
-  const TopNav = (): React.ReactElement => {
+  const TopNav = ({navigation}:any): React.ReactElement => {
 
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
     <TabView
@@ -26,7 +26,7 @@ import PendingBookings from '../Screens/Bookings/PendingBookings';
       </Tab>
       <Tab title={(styles:any)=><Text style={[styles.style,{fontSize:16}]}>Completed</Text>}>
         <Layout style={styles.tabContainer}>
-          <CompletedBookings/>
+          <CompletedBookings navigation={navigation}/>
         </Layout>
       </Tab>
       <Tab title={(styles:any)=><Text style={[styles.style,{fontSize:16}]}>Pending</Text>}>

@@ -7,4 +7,5 @@ export type Appointment=
     picture:string;
     name:string;
     speciality:string;
+    doctorId:string;
 }

@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {StyleSheet, Text, View, useWindowDimensions} from 'react-native';
-import {MediaType, PresentationStyle} from 'react-native-image-picker';
+import {MediaType} from 'react-native-image-picker';
 import ImagePicker from '../../Components/ImagePicker';
 import ListButton from '../../Components/ListButton';
 import Line from '../../Components/Line';

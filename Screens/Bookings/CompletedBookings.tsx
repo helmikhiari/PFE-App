@@ -12,8 +12,7 @@ import { styless } from './PendingBookings';
 import Delete from '../../Requests/Delete';
 import { useNavigation } from '@react-navigation/native';
 
-export default function CompletedBookings() {
-  const navigation=useNavigation();
+export default function CompletedBookings({navigation}:any) {
   const [data, setData] = useState<Appointment[]>([]);
   const [render, setRender] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
@@ -78,7 +77,7 @@ export default function CompletedBookings() {
             name={booking.name}
             speciality={booking.speciality}
             source={{ uri: booking.picture }}
-            leftButtonOnPress={() => {setId(booking.id);navigation.navigate('BookApp',{_id:id})}}
+            leftButtonOnPress={() => {setId(booking.doctorId);navigation.navigate('BookApp',{_id:id})}}
             rightButtonOnPress={() => { } }
             leftButtonTitle="Re-Book"
             rightButtonTitle="Add Review" />
